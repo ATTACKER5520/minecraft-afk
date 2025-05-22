@@ -8,10 +8,10 @@ const config = {
   host: 'hypixel.uz',
   port: 25566,
   version: '1.12',
-  username: 'AT_OROL_1',
+  username: 'BREACKER6',
   password: 'abdu2006',
-  loginPassword: '1234444', // agar login komandasi boshqa parol bilan bo‘lsa
-  controller: 'ATTACKER'
+  loginPassword: '2000609', // agar login komandasi boshqa parol bilan bo‘lsa
+  controller: 'afk_heater'
 };
 
 function startBot() {
@@ -34,10 +34,10 @@ function startBot() {
 
   bot.on('chat', (username, message) => {
     if (username === config.controller) {
-      if (message.startsWith('+ ')) {
-        const toSay = message.replace('+ ', '');
+      if (message.startsWith('- ')) {
+        const toSay = message.replace('- ', '');
         bot.chat(toSay);
-      } else if (message === 'tpat1') {
+      } else if (message === 'tpbr') {
         bot.chat(`/tpa ${config.controller}`);
       }
     }

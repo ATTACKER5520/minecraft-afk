@@ -4,15 +4,16 @@ const { Vec3 } = require('vec3');
 
 const app = express();
 let bot;
+let shouldBreakLogs = false;
 
 const config = {
   host: 'hypixel.uz',
   port: 25566,
   version: '1.12',
-  username: 'BREACKER6',
+  username: 'AT_OROL_1',
   password: 'abdu2006',
-  loginPassword: '2000609',
-  controller: 'afk_heater'
+  loginPassword: '1234444',
+  controller: 'ATTACKER'
 };
 
 function startBot() {
@@ -40,13 +41,16 @@ function startBot() {
         bot.chat(toSay);
       } else if (message === 'tpat1') {
         bot.chat(`/tpa ${config.controller}`);
+      } else if (message === 'BR') {
+        shouldBreakLogs = true;
+        bot.chat('🪓 Log buzish boshlandi!');
       }
     }
   });
 
   bot.on('death', () => {
     bot.chat('/back');
-    bot.chat(`/w ${config.controller} BREACKER6 uldi`);
+    bot.chat(`/w ${config.controller} AT_OROL_1 uldi`);
   });
 
   bot.on('spawn', () => {
@@ -64,8 +68,10 @@ function startBot() {
         }, 500);
       }, 4 * 60 * 1000);
 
-      // Har 1 soniyada loglarni tekshirish va buzish
+      // Har 1 soniyada loglarni tekshirish va buzish (faqat BR komandasi berilganda)
       setInterval(() => {
+        if (!shouldBreakLogs) return;
+
         ensureAxeEquipped();
 
         const blocks = bot.findBlocks({

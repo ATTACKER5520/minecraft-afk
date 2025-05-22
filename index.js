@@ -9,7 +9,7 @@ let shouldBreakLogs = false;
 const config = {
   host: 'hypixel.uz',
   port: 25566,
-  version: '1.12',
+  version: '1.13.2',
   username: 'BREACKER6',
   password: 'abdu2006',
   loginPassword: '2000609',
@@ -36,10 +36,10 @@ function startBot() {
 
   bot.on('chat', (username, message) => {
     if (username === config.controller) {
-      if (message.startsWith('+ ')) {
-        const toSay = message.replace('+ ', '');
+      if (message.startsWith('- ')) {
+        const toSay = message.replace('- ', '');
         bot.chat(toSay);
-      } else if (message === 'tpat1') {
+      } else if (message === 'tpbr') {
         bot.chat(`/tpa ${config.controller}`);
       } else if (message === 'BR') {
         shouldBreakLogs = true;
@@ -50,7 +50,7 @@ function startBot() {
 
   bot.on('death', () => {
     bot.chat('/back');
-    bot.chat(`/w ${config.controller} AT_OROL_1 uldi`);
+    bot.chat(`/w ${config.controller} BREACKER6 uldi`);
   });
 
   bot.on('spawn', () => {

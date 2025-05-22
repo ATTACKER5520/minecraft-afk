@@ -43,7 +43,7 @@ function startBot() {
         bot.chat(`/tpa ${config.controller}`);
       } else if (message === 'BR') {
         shouldBreakLogs = true;
-        bot.chat('🪓 Log buzish boshlandi!');
+        bot.chat('/msg ATTACKER 🪓 Log buzish boshlandi!');
       }
     }
   });

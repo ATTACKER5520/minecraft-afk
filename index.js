@@ -1,5 +1,6 @@
 const express = require('express');
 const mineflayer = require('mineflayer');
+const { Vec3 } = require('vec3');
 
 const app = express();
 let bot;
@@ -10,7 +11,7 @@ const config = {
   version: '1.12',
   username: 'BREACKER6',
   password: 'abdu2006',
-  loginPassword: '2000609', // agar login komandasi boshqa parol bilan bo‘lsa
+  loginPassword: '2000609',
   controller: 'afk_heater'
 };
 
@@ -34,43 +35,78 @@ function startBot() {
 
   bot.on('chat', (username, message) => {
     if (username === config.controller) {
-      if (message.startsWith('- ')) {
-        const toSay = message.replace('- ', '');
+      if (message.startsWith('+ ')) {
+        const toSay = message.replace('+ ', '');
         bot.chat(toSay);
-      } else if (message === 'tpbr') {
+      } else if (message === 'tpat1') {
         bot.chat(`/tpa ${config.controller}`);
       }
     }
   });
 
-  bot.on('physicTick', () => {
-    const playerEntity = bot.nearestEntity(entity => entity.type === 'player');
-    if (!playerEntity) return;
-    const pos = playerEntity.position.offset(0, playerEntity.height, 0);
-    bot.lookAt(pos);
-  });
-
   bot.on('death', () => {
     bot.chat('/back');
-    bot.chat(`/w ${config.controller} AT_OROL_1 uldi`);
+    bot.chat(`/w ${config.controller} BREACKER6 uldi`);
   });
 
   bot.on('spawn', () => {
     console.log('✅ Bot spawn bo‘ldi!');
-    // har 5 sekundda sakrash
-    setInterval(() => {
-      bot.setControlState('jump', true);
-      setTimeout(() => {
-        bot.setControlState('jump', false);
-      }, 500);
-    }, 5000);
 
-    // /is warp farm komandasi
     setTimeout(() => {
       bot.chat('/is warp farm');
       console.log('/is warp farm komandasi yuborildi');
+
+      // Har 4 daqiqada 1 marta sakrash
+      setInterval(() => {
+        bot.setControlState('jump', true);
+        setTimeout(() => {
+          bot.setControlState('jump', false);
+        }, 500);
+      }, 4 * 60 * 1000);
+
+      // Har 1 soniyada loglarni tekshirish va buzish
+      setInterval(() => {
+        ensureAxeEquipped();
+
+        const blocks = bot.findBlocks({
+          matching: block => block.name === 'oak_log' || block.name === 'stripped_oak_log',
+          maxDistance: 6,
+          count: 1
+        });
+
+        if (blocks.length > 0) {
+          const block = bot.blockAt(blocks[0]);
+          if (block && bot.canDigBlock(block)) {
+            bot.dig(block).catch(err => console.log('❌ Buzishda xato:', err.message));
+          }
+        }
+
+        // Inventardagi loglarni otib yuborish
+        const dropItems = bot.inventory.items().filter(item =>
+          item.name === 'oak_log' || item.name === 'stripped_oak_log'
+        );
+
+        if (dropItems.length > 0) {
+          for (const item of dropItems) {
+            bot.tossStack(item).catch(err => console.log('❌ Item otishda xato:', err.message));
+          }
+        }
+      }, 1000);
+
     }, 5000);
   });
+
+  function ensureAxeEquipped() {
+    const axe = bot.inventory.items().find(item => item.name === 'diamond_axe');
+    if (!axe) {
+      console.log('❌ Inventoryda diamond_axe yo‘q');
+      return;
+    }
+
+    if (!bot.heldItem || bot.heldItem.name !== 'diamond_axe') {
+      bot.equip(axe, 'hand').catch(err => console.log('❌ Axe ushlashda xato:', err.message));
+    }
+  }
 
   bot.on('end', () => {
     console.log('⚠️ Bot serverdan chiqdi. Qayta ulanmoqda...');

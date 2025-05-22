@@ -8,7 +8,7 @@ const config = {
   host: 'hypixel.uz',
   port: 25566,
   version: '1.12',
-  username: 'afk_heater',
+  username: 'AT_OROL_1',
   password: 'abdu2006',
   loginPassword: '1234444', // agar login komandasi boshqa parol bilan bo‘lsa
   controller: 'ATTACKER'
@@ -37,7 +37,7 @@ function startBot() {
       if (message.startsWith('+ ')) {
         const toSay = message.replace('+ ', '');
         bot.chat(toSay);
-      } else if (message === 'tpafk') {
+      } else if (message === 'tpat1') {
         bot.chat(`/tpa ${config.controller}`);
       }
     }
@@ -65,7 +65,12 @@ function startBot() {
       }, 500);
     }, 5000);
 
-
+    // /is warp farm komandasi
+    setTimeout(() => {
+      bot.chat('/is warp farm');
+      console.log('/is warp farm komandasi yuborildi');
+    }, 5000);
+  });
 
   bot.on('end', () => {
     console.log('⚠️ Bot serverdan chiqdi. Qayta ulanmoqda...');

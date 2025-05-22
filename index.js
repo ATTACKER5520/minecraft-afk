@@ -10,9 +10,9 @@ const config = {
   host: 'hypixel.uz',
   port: 25566,
   version: '1.12',
-  username: 'AT_OROL_1',
+  username: 'BREACKER6',
   password: 'abdu2006',
-  loginPassword: '1234444',
+  loginPassword: '2000609',
   controller: 'ATTACKER'
 };
 
